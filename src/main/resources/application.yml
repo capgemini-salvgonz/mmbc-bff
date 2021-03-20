@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+tocode:
+  cognito:
+    jwks: https://cognito-idp.us-east-2.amazonaws.com/???/.well-known/jwks.json
+
+logging:
+  level:
+    root: INFO
