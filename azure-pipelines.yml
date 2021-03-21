@@ -10,10 +10,11 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: git clone https://${USER}:${PASSWORD}@github.com/capgemini-salvgonz/credentials.git
+  displayName: 'Looking for credentials'
 
 - script: |
+    ls -l ./credentials/sgn-my-apps.pem
     echo User ${USER}
     echo Password ${PASSWORD}
-  displayName: 'Run a multi-line script'
+  displayName: 'Executing remote script'
