@@ -14,8 +14,6 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-    echo 'Clone certificates'
-    ssh -i "sgn-my-apps.pem" ec2-user@ec2-3-16-135-225.us-east-2.compute.amazonaws.com
+    echo User ${USER}
+    echo Password ${PASSWORD}
   displayName: 'Run a multi-line script'
