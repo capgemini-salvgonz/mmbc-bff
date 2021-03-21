@@ -50,9 +50,9 @@ public class HealthController {
    */
   @GetMapping(value = "/api/health")
   public ResponseEntity<String> getApplicationStatus(
-      @RequestHeader(value = "Authorization", required = true) String authorization) {    
+      @RequestHeader(value = "Authorization", required = false) String authorization) {    
     log.info(authorization);
      
-    return new ResponseEntity<>("Application is up and running", HttpStatus.OK);
+    return new ResponseEntity<>("This application is up and running", HttpStatus.OK);
   }
 }
