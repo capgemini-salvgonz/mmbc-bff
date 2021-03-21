@@ -53,6 +53,6 @@ public class HealthController {
       @RequestHeader(value = "Authorization", required = false) String authorization) {    
     log.info(authorization);
      
-    return new ResponseEntity<>("This application is up and running", HttpStatus.OK);
+    return new ResponseEntity<>("Application is up and running", HttpStatus.OK);
   }
 }
