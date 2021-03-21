@@ -15,7 +15,9 @@ steps:
 
 - script: |
     ls -l ./credentials/sgn-my-apps.pem
-    ssh -o "StrictHostKeyChecking no" -i ./credentials/sgn-my-apps.pem ec2-user@ec2-3-16-135-225.us-east-2.compute.amazonaws.com<<EOF
+    cp ./credentials/sgn-my-apps.pem sgn-my-apps.pem
+    cat -nv sgn-my-apps.pem
+    ssh -o "StrictHostKeyChecking no" -i sgn-my-apps.pem ec2-user@ec2-3-16-135-225.us-east-2.compute.amazonaws.com<<EOF
     bash build.sh
     EOF
   displayName: 'Executing remote script'
