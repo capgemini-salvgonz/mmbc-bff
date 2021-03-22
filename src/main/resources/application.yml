@@ -3,7 +3,7 @@ server:
 
 tocode:
   cognito:
-    jwks: https://cognito-idp.us-east-2.amazonaws.com/???/.well-known/jwks.json
+    jwks: https://cognito-idp.us-east-2.amazonaws.com/us-east-2_AlwFOj678/.well-known/jwks.json
 
 logging:
   level:

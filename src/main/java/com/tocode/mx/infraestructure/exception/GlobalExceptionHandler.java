@@ -57,9 +57,8 @@ public class GlobalExceptionHandler {
     ErrorResponse response = new ErrorResponse();
     response.setCode(500);
     response.setMessage(ex.getMessage());
-    response.setType("security");
-    response.setErrorCode(100);
-    response.setMoreInfo("Token expired");
+    response.setType("internal error");
+    response.setErrorCode(100);    
 
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }

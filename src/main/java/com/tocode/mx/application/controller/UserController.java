@@ -57,9 +57,9 @@ public class UserController {
    */
   @GetMapping(value = "/api/user")
   public ResponseEntity<CognitoUser> getUser(
-      HttpServletRequest request,       
+      HttpServletRequest request,
       @RequestHeader(value = "Authorization", required = true) String authorization) {
-        
+
     log.info("Authorization: [{}]", authorization);
     log.info("User [{}]", request.getAttribute("user"));
     
