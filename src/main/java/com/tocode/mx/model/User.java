@@ -29,7 +29,7 @@ package com.tocode.mx.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import lombok.ToString;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -47,12 +47,13 @@ import javax.persistence.Table;
 @Table(name = "user")
 @Getter
 @Setter
+@ToString
 public class User {
 
   /** The user id. */
   @Id
   @Column(name = "id_user")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long userId;
 
   /** The email. */

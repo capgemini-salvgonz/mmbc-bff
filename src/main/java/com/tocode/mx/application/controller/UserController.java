@@ -28,17 +28,16 @@
 package com.tocode.mx.application.controller;
 
 import com.tocode.mx.application.dto.CognitoUser;
-
-import lombok.extern.slf4j.Slf4j;
-
+import com.tocode.mx.application.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class UserController.
@@ -48,6 +47,9 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class UserController {
 
+  @Autowired
+  UserService userService;
+  
   /**
    * Gets the user.
    *
@@ -63,7 +65,8 @@ public class UserController {
     log.info("Authorization: [{}]", authorization);
     log.info("User [{}]", request.getAttribute("user"));
     
-    CognitoUser user = (CognitoUser)request.getAttribute("user");    
+    CognitoUser user = (CognitoUser)request.getAttribute("user");
+    userService.addNewUser(user);
     
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
