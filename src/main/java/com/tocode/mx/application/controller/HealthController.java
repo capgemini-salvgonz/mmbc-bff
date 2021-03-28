@@ -27,6 +27,7 @@
 
 package com.tocode.mx.application.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,6 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class HealthController {
   
+  @Value("${mmbc.database.secret}")
+  private String cred;
+  
   /**
    * Gets the application status.
    *
@@ -50,6 +54,6 @@ public class HealthController {
   public ResponseEntity<String> getApplicationStatus(
       @RequestHeader(value = "Authorization", required = false) String authorization) {    
     
-    return new ResponseEntity<>("Application is up and running", HttpStatus.OK);
+    return new ResponseEntity<>("Application is up and running :" + cred, HttpStatus.OK);
   }
 }
