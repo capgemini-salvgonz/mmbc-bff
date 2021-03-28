@@ -8,3 +8,34 @@ tocode:
 logging:
   level:
     root: INFO
+
+mmbc:
+  database:
+    secret: 
+
+spring:
+  database:
+    driverClassName: com.mysql.cj.jdbc.Driver
+  datasource:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    url: jdbc:mysql://www.2code.com.mx:3306/codecom1_mmbc?useSSL=false&serverTimezone=UTC
+    username: codecom1_mmbc
+    password: ${mmbc.database.secret}
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        default_schema: codecom1_mmbc
+
+
