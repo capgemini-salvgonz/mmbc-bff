@@ -18,7 +18,7 @@ steps:
     mv ./credentials/sgn-my-apps.pem sgn-my-apps.pem
     chmod 400 sgn-my-apps.pem
     ssh -o "StrictHostKeyChecking no" -i sgn-my-apps.pem ec2-user@ec2-3-16-135-225.us-east-2.compute.amazonaws.com<<EOF
-    DB_SECRET=$(DB_SECRET); export DB_SECRET
+    export DB_SECRET=$(DB_SECRET)
     bash build.sh
     EOF
   displayName: 'Executing remote script'
