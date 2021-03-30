@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: AccountServiceImpl.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 30 mar. 2021 
 */
 
 package com.tocode.mx.application.service.impl;
@@ -33,12 +33,14 @@ import com.tocode.mx.application.mapper.AccountMapper;
 import com.tocode.mx.application.repository.AccountRepository;
 import com.tocode.mx.application.repository.UserRepository;
 import com.tocode.mx.application.service.AccountService;
+import com.tocode.mx.model.Account;
 import com.tocode.mx.model.User;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -83,5 +85,53 @@ public class AccountServiceImpl implements AccountService {
     }
 
     return null;
+  }
+
+  /**
+   * Publish account.
+   *
+   * @param cognitoUser the cognito user
+   * @param account the account dto
+   */
+  @Override
+  public void publishAccount(CognitoUser cognitoUser, AccountDto accountDto) {
+    this.getUserAndExecuteActionWithAccount(
+        cognitoUser.getEmail(), 
+        accountDto, 
+        a -> this.accountRepository.save(a)); 
+  }
+
+  /**
+   * Drop account.
+   *
+   * @param cognitoUser the cognito user
+   * @param account the account
+   */
+  @Override
+  public void dropAccount(CognitoUser cognitoUser, AccountDto accountDto) {
+    this.getUserAndExecuteActionWithAccount(
+        cognitoUser.getEmail(), 
+        accountDto, 
+        a -> this.accountRepository.delete(a));    
+  }
+  
+  /**
+   * Gets the user and execute action with account.
+   *
+   * @param email the email
+   * @param accountDto the account dto
+   * @param consumer the consumer
+   * @return the user and execute action with account
+   */
+  private void getUserAndExecuteActionWithAccount(String email, AccountDto accountDto, 
+      Consumer<Account> consumer) {
+    this.userRepository
+      .findByEmail(email)
+      .map(u -> {
+        Account account = AccountMapper.from(accountDto);
+        account.setUserId(u.getUserId());
+        return account;
+      })
+      .ifPresent(consumer);
   }
 }

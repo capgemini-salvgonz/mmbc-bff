@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: AccountMapper.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 29 mar. 2021 
 */
 
 package com.tocode.mx.application.mapper;
@@ -50,5 +50,21 @@ public class AccountMapper {
     accountDto.setType(account.getType());
 
     return accountDto;
+  }
+  
+  /**
+   * From.
+   *
+   * @param accountDto the account dto
+   * @return the account
+   */
+  public static Account from(AccountDto accountDto) {
+    Account account = new Account();
+    account.setAccountNumber(accountDto.getAccountNumber());
+    account.setBalance(accountDto.getBalance());
+    account.setDescription(accountDto.getDescription());
+    account.setType(accountDto.getType());
+    
+    return account;
   }
 }

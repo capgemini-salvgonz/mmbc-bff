@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: AccountController.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 30 mar. 2021 
 */
 
 package com.tocode.mx.application.controller;
@@ -36,7 +36,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,5 +73,48 @@ public class AccountController {
     log.info("Retrieving accounts for user [{}]", cognitoUser);
 
     return new ResponseEntity<>(accountService.getAccounts(cognitoUser), HttpStatus.OK);
+  }
+  
+  /**
+   * Post account.
+   *
+   * @param httpServletRequest the http servlet request
+   * @param authorizationTokenId the authorization token id
+   * @param account the account
+   * @return the response entity
+   */
+  @PostMapping(value = "/api/accounts")
+  public ResponseEntity<String> postAccount(
+      HttpServletRequest httpServletRequest,
+      @RequestHeader(value = "Authorization", required = true) String authorizationTokenId,
+      @RequestBody AccountDto account
+      ) {
+    CognitoUser cognitoUser = (CognitoUser) httpServletRequest.getAttribute("user");
+    log.info("Publish account [{}] for user [{}]", account, cognitoUser);
+    
+    this.accountService.publishAccount(cognitoUser, account);
+    
+    return new ResponseEntity<>(null, HttpStatus.OK);
+  }
+  
+  /**
+   * Delete account.
+   *
+   * @param httpServletRequest the http servlet request
+   * @param authorizationTokenId the authorization token id
+   * @param account the account
+   * @return the response entity
+   */
+  @DeleteMapping(value = "/api/accounts")
+  public ResponseEntity<String> deleteAccount(
+      HttpServletRequest httpServletRequest,
+      @RequestHeader(value = "Authorization", required = true) String authorizationTokenId,
+      @RequestBody AccountDto account
+      ) {
+    CognitoUser cognitoUser = (CognitoUser) httpServletRequest.getAttribute("user");
+    log.info("Delete account [{}] for user [{}]", account, cognitoUser);    
+    this.accountService.dropAccount(cognitoUser, account);
+    
+    return new ResponseEntity<>(null, HttpStatus.OK);
   }
 }

@@ -22,13 +22,14 @@
 *
 * Nombre de archivo: AccountService.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 29 mar. 2021 
 */
 
 package com.tocode.mx.application.service;
 
 import com.tocode.mx.application.dto.AccountDto;
 import com.tocode.mx.application.dto.CognitoUser;
+
 import java.util.List;
 
 /**
@@ -43,4 +44,22 @@ public interface AccountService {
    * @return the accounts
    */
   List<AccountDto> getAccounts(CognitoUser cognitoUser);
+  
+  /**
+   * Publish account.
+   *
+   * @param cognitoUser the cognito user
+   * @param account the account
+   */
+  void publishAccount(CognitoUser cognitoUser, AccountDto account);
+  
+  /**
+   * Drop account.
+   *
+   * @param cognitoUser the cognito user
+   * @param account the account
+   */
+  void dropAccount(CognitoUser cognitoUser, AccountDto account);
 }
+
+
