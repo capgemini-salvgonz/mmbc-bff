@@ -14,10 +14,10 @@ steps:
   displayName: 'Looking for credentials'
 
 - script: 
-    ls -l ./credentials/sgn-my-apps.pem
-    mv ./credentials/sgn-my-apps.pem sgn-my-apps.pem
-    chmod 400 sgn-my-apps.pem
+    ls -l ./credentials/sgn-my-apps.pem; 
+    mv ./credentials/sgn-my-apps.pem sgn-my-apps.pem; 
+    chmod 400 sgn-my-apps.pem; 
     ssh -o "StrictHostKeyChecking no" -i sgn-my-apps.pem ec2-user@ec2-3-16-135-225.us-east-2.compute.amazonaws.com<<EOF
     bash build.sh $(DB_SECRET)
-    EOF
+    EOF; 
   displayName: 'Executing remote script'
