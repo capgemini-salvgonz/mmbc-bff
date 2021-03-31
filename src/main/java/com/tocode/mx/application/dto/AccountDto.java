@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: AccountDto.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 31 mar. 2021 
 */
 
 package com.tocode.mx.application.dto;
@@ -36,6 +36,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AccountDto {
+  
+  /** The account id. */
+  private Long accountId;
   
   /** The account number. */
   private Long accountNumber;

@@ -44,10 +44,11 @@ public class AccountMapper {
   public static AccountDto transform(Account account) {
     AccountDto accountDto = new AccountDto();
 
+    accountDto.setAccountId(account.getAccountId());
     accountDto.setAccountNumber(account.getAccountNumber());
     accountDto.setBalance(account.getBalance());
     accountDto.setDescription(account.getDescription());
-    accountDto.setType(account.getType());
+    accountDto.setType(account.getType());    
 
     return accountDto;
   }
@@ -60,6 +61,7 @@ public class AccountMapper {
    */
   public static Account from(AccountDto accountDto) {
     Account account = new Account();
+    account.setAccountId(accountDto.getAccountId());
     account.setAccountNumber(accountDto.getAccountNumber());
     account.setBalance(accountDto.getBalance());
     account.setDescription(accountDto.getDescription());

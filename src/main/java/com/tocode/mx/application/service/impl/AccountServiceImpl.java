@@ -35,21 +35,17 @@ import com.tocode.mx.application.repository.UserRepository;
 import com.tocode.mx.application.service.AccountService;
 import com.tocode.mx.model.Account;
 import com.tocode.mx.model.User;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class AccountServiceImpl.
  */
 @Service
-@Slf4j
 public class AccountServiceImpl implements AccountService {
 
   /** The account repository. */

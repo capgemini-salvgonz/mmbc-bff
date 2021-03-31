@@ -32,6 +32,8 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -44,9 +46,13 @@ import javax.persistence.Table;
 @Getter
 @Setter
 public class Account {
+  
+  @Id()
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "accountId", nullable = false, length = 11)
+  private Long accountId;
 
-  /** The account number. */
-  @Id
+  /** The account number. */  
   @Column(name = "account_number", nullable = false, length = 11)
   private Long accountNumber;
 
