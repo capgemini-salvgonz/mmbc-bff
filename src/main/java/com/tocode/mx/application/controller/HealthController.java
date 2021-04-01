@@ -50,6 +50,6 @@ public class HealthController {
   public ResponseEntity<String> getApplicationStatus(
       @RequestHeader(value = "Authorization", required = false) String authorization) {    
     
-    return new ResponseEntity<>("Application is up and running", HttpStatus.OK);
+    return new ResponseEntity<>("Application is up and running @[AWS toCode]", HttpStatus.OK);
   }
 }
