@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -114,6 +115,17 @@ public class AccountController {
     log.info("Delete account [{}] for user [{}]", account.getAccountNumber(), cognitoUser);    
     this.accountService.dropAccount(cognitoUser, account);
     
+    return new ResponseEntity<>(null, HttpStatus.OK);
+  }
+  
+  @DeleteMapping(value = "/api/accounts")
+  public ResponseEntity<String> deleteAccounts(
+      HttpServletRequest httpServletRequest,
+      @RequestHeader(value = "Authorization", required = true) String authorizationTokenId,
+      @RequestBody AccountDto account
+      ) {
+    CognitoUser cognitoUser = (CognitoUser) httpServletRequest.getAttribute("user");
+    log.info("Delete account [{}] for user [{}]", account, cognitoUser);    
     return new ResponseEntity<>(null, HttpStatus.OK);
   }
 }
