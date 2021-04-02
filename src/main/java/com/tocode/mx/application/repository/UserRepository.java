@@ -28,8 +28,9 @@
 package com.tocode.mx.application.repository;
 
 import com.tocode.mx.model.User;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+
 import java.util.Optional;
 
 /**
@@ -38,17 +39,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>{
   
   /**
-   * Find all.
-   *
-   * @return the list
-   */
-  List<User> findAll();
-  
-  /**
    * Find by email.
    *
    * @param email the email
    * @return the optional
    */
+  @Cacheable(value = "mmbc-users", key = "#email")
   Optional<User> findByEmail(String email);
 }

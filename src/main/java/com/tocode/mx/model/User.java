@@ -30,6 +30,7 @@ package com.tocode.mx.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -48,7 +49,13 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-public class User {
+public class User implements Serializable{
+
+
+  /**
+   * serialVersionUID
+   */
+  private static final long serialVersionUID = -5120358175253655898L;
 
   /** The user id. */
   @Id

@@ -55,7 +55,5 @@ public interface RevenueRepository extends JpaRepository<Revenue, Long> {
   @Modifying
   @Query(value = "delete from revenue where id_revenue=:revenueId and id_user=:userId",
       nativeQuery = true) 
-  void deleteRevenue(@Param("revenueId")Long revenueId, @Param("userId") Long userId);
-  
-  void deleteByRevenueIdAndUserId(Long revenueId, Long userId);
+  void deleteRevenue(@Param("revenueId")Long revenueId, @Param("userId") Long userId);  
 }

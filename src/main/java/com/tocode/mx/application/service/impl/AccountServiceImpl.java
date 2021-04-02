@@ -35,11 +35,11 @@ import com.tocode.mx.application.service.AccountService;
 import com.tocode.mx.application.service.UserService;
 import com.tocode.mx.model.Account;
 
-
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -90,12 +90,12 @@ public class AccountServiceImpl implements AccountService {
    * @param cognitoUser the cognito user
    * @param account the account dto
    */
-  @Override
+  @Override  
   public void publishAccount(CognitoUser cognitoUser, AccountDto accountDto) {
     this.getUserAndExecuteActionWithAccount(
         cognitoUser.getEmail(), 
         accountDto, 
-        a -> this.accountRepository.save(a)); 
+        a -> this.accountRepository.save(a));
   }
 
   /**
@@ -123,12 +123,25 @@ public class AccountServiceImpl implements AccountService {
    */
   private void getUserAndExecuteActionWithAccount(String email, AccountDto accountDto, 
       Consumer<Account> consumer) {
+    
+    final Account accountToSave = AccountMapper.from(accountDto);
+    accountToSave.setUserId(null);
+    accountToSave.setAccountId(null);
+    
+    Optional<Account> userAccount = 
     this.userService.getUserUsingEmail(email)
       .map(u -> {
-        Account account = AccountMapper.from(accountDto);
-        account.setUserId(u.getUserId());        
-        return account;
-      })      
-      .ifPresent(consumer);
+        accountToSave.setUserId(u.getUserId());
+        return accountToSave;})
+      .map(a -> this.accountRepository
+        .findByAccountIdAndUserId(accountDto.getAccountId(), a.getUserId()))
+      .get();
+    
+     if(userAccount.isPresent()) {
+       accountToSave.setAccountId(userAccount.get().getAccountId());
+     }    
+     
+     consumer.accept(accountToSave);
+  
   }
 }

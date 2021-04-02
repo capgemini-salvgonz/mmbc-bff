@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: AccountRepository.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 2 abr. 2021 
 */
 
 package com.tocode.mx.application.repository;
@@ -30,6 +30,7 @@ package com.tocode.mx.application.repository;
 import com.tocode.mx.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The Interface AccountRepository.
@@ -43,4 +44,13 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
    * @return the list
    */
   List<Account> findByUserId(Long userId);
+  
+  /**
+   * Frond by id and user id.
+   *
+   * @param id the id
+   * @param userId the user id
+   * @return the optional
+   */ 
+  Optional<Account> findByAccountIdAndUserId(Long accountId, Long userId);
 }

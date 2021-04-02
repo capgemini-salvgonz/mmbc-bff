@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: UserServiceImpl.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 28, 2021 
+* Fecha de creación: 2 abr. 2021 
 */
 
 package com.tocode.mx.application.service.impl;
@@ -91,6 +91,6 @@ public class UserServiceImpl implements UserService {
   @Override
   public Optional<User> getUserUsingEmail(String email) {
     return userRepository.findByEmail(email);
-  }
+  }  
 
 }

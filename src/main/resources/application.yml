@@ -8,6 +8,7 @@ tocode:
 logging:
   level:
     root: INFO
+    log4j.logger.org.hibernate.type.descriptor.sql: trace
 
 mmbc:
   database:
@@ -37,5 +38,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         default_schema: codecom1_mmbc
-
-
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
