@@ -20,35 +20,42 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* Nombre de archivo: UserRepository.java 
+* Nombre de archivo: RevenueRepository.java 
 * Autor: salvgonz 
-* Fecha de creación: 1 abr. 2021 
+* Fecha de creación: 2 abr. 2021 
 */
 
 package com.tocode.mx.application.repository;
 
-import com.tocode.mx.model.User;
+import com.tocode.mx.model.Revenue;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * The Interface UserRepository.
+ * The Interface RevenueRepository.
  */
-public interface UserRepository extends JpaRepository<User, Long>{
-  
+public interface RevenueRepository extends JpaRepository<Revenue, Long> {
+
   /**
    * Find all.
    *
    * @return the list
    */
-  List<User> findAll();
+  List<Revenue> findByUserId(Long userId);
   
   /**
-   * Find by email.
+   * Delete revenue.
    *
-   * @param email the email
-   * @return the optional
+   * @param revenueId the revenue id
+   * @param userId the user id
    */
-  Optional<User> findByEmail(String email);
+  @Modifying
+  @Query(value = "delete from revenue where id_revenue=:revenueId and id_user=:userId",
+      nativeQuery = true) 
+  void deleteRevenue(@Param("revenueId")Long revenueId, @Param("userId") Long userId);
+  
+  void deleteByRevenueIdAndUserId(Long revenueId, Long userId);
 }

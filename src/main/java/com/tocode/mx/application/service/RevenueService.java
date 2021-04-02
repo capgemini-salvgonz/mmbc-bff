@@ -20,35 +20,44 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* Nombre de archivo: UserRepository.java 
+* Nombre de archivo: RevenueService.java 
 * Autor: salvgonz 
 * Fecha de creación: 1 abr. 2021 
 */
 
-package com.tocode.mx.application.repository;
+package com.tocode.mx.application.service;
 
-import com.tocode.mx.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.tocode.mx.application.dto.CognitoUser;
+import com.tocode.mx.application.dto.RevenueDto;
+
 import java.util.List;
-import java.util.Optional;
 
 /**
- * The Interface UserRepository.
+ * The Interface RevenueService.
  */
-public interface UserRepository extends JpaRepository<User, Long>{
-  
+public interface RevenueService {
+
   /**
-   * Find all.
+   * Gets the revenue list.
    *
-   * @return the list
+   * @param cognitoUser the cognito user
+   * @return the revenue list
    */
-  List<User> findAll();
-  
+  List<RevenueDto> getRevenueList(CognitoUser cognitoUser);
+
   /**
-   * Find by email.
+   * Save revenue entry.
    *
-   * @param email the email
-   * @return the optional
+   * @param revenueDto the revenue dto
+   * @param cognitoUser the cognito user
    */
-  Optional<User> findByEmail(String email);
+  void saveRevenueEntry(RevenueDto revenueDto, CognitoUser cognitoUser);
+
+  /**
+   * Delete revenue element.
+   *
+   * @param revenueDto the revenue dto
+   * @param cognitoUser the cognito user
+   */
+  void deleteRevenueElement(RevenueDto revenueDto, CognitoUser cognitoUser);
 }

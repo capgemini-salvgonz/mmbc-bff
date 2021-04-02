@@ -20,35 +20,49 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* Nombre de archivo: UserRepository.java 
+* Nombre de archivo: RevenueMapper.java 
 * Autor: salvgonz 
 * Fecha de creación: 1 abr. 2021 
 */
 
-package com.tocode.mx.application.repository;
+package com.tocode.mx.application.mapper;
 
-import com.tocode.mx.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-import java.util.Optional;
+import com.tocode.mx.application.dto.RevenueDto;
+import com.tocode.mx.model.Revenue;
 
 /**
- * The Interface UserRepository.
+ * The Class RevenueMapper.
  */
-public interface UserRepository extends JpaRepository<User, Long>{
-  
+public class RevenueMapper {
+
   /**
-   * Find all.
+   * From.
    *
-   * @return the list
+   * @param revenueDto the revenue dto
+   * @return the revenue
    */
-  List<User> findAll();
-  
+  public static Revenue from(RevenueDto revenueDto) {
+    Revenue revenue = new Revenue();
+    revenue.setAmount(revenueDto.getAmount());
+    revenue.setDescription(revenueDto.getDescription());
+    revenue.setRevenueId(revenueDto.getRevenueId());
+    revenue.setUserId(null);
+
+    return revenue;
+  }
+
   /**
-   * Find by email.
+   * Transform.
    *
-   * @param email the email
-   * @return the optional
+   * @param revenue the revenue
+   * @return the revenue dto
    */
-  Optional<User> findByEmail(String email);
+  public static RevenueDto transform(Revenue revenue) {
+    RevenueDto revenueDto = new RevenueDto();
+    revenueDto.setAmount(revenue.getAmount());
+    revenueDto.setDescription(revenue.getDescription());
+    revenueDto.setRevenueId(revenue.getRevenueId());
+
+    return revenueDto;
+  }
 }

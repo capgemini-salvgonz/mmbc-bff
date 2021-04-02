@@ -22,7 +22,7 @@
 *
 * Nombre de archivo: AccountServiceImpl.java 
 * Autor: salvgonz 
-* Fecha de creación: 30 mar. 2021 
+* Fecha de creación: 1 abr. 2021 
 */
 
 package com.tocode.mx.application.service.impl;
@@ -31,14 +31,15 @@ import com.tocode.mx.application.dto.AccountDto;
 import com.tocode.mx.application.dto.CognitoUser;
 import com.tocode.mx.application.mapper.AccountMapper;
 import com.tocode.mx.application.repository.AccountRepository;
-import com.tocode.mx.application.repository.UserRepository;
 import com.tocode.mx.application.service.AccountService;
+import com.tocode.mx.application.service.UserService;
 import com.tocode.mx.model.Account;
-import com.tocode.mx.model.User;
+
+
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -49,10 +50,10 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
 
   /** The account repository. */
-  private AccountRepository accountRepository;
+  private AccountRepository accountRepository;  
   
-  /** The user repository. */
-  private UserRepository userRepository;
+  /** The user service. */
+  private UserService userService;
 
   /**
    * Instantiates a new account service impl.
@@ -60,9 +61,9 @@ public class AccountServiceImpl implements AccountService {
    * @param accountRepository the account repository
    * @param userRepository the user repository
    */
-  public AccountServiceImpl(AccountRepository accountRepository, UserRepository userRepository) {
+  public AccountServiceImpl(AccountRepository accountRepository, UserService userService) {
     this.accountRepository = accountRepository;
-    this.userRepository = userRepository;
+    this.userService = userService;
   }
 
   /**
@@ -73,17 +74,14 @@ public class AccountServiceImpl implements AccountService {
    */
   @Override
   public List<AccountDto> getAccounts(CognitoUser cognitoUser) {
-
-    Optional<User> user = this.userRepository.findByEmail(cognitoUser.getEmail());
     
-    if (user.isPresent()) {
-      return this.accountRepository.findByUserId(user.get().getUserId())
-        .stream()
-          .map(AccountMapper::transform)
-          .collect(Collectors.toList());
-    }
-
-    return null;
+    return this.userService.getUserUsingEmail(cognitoUser.getEmail())
+      .map(u -> u.getUserId())
+      .map(this.accountRepository::findByUserId)      
+      .orElse(new ArrayList<Account>())
+      .stream()
+      .map(AccountMapper::transform)
+      .collect(Collectors.toList());
   }
 
   /**
@@ -125,8 +123,7 @@ public class AccountServiceImpl implements AccountService {
    */
   private void getUserAndExecuteActionWithAccount(String email, AccountDto accountDto, 
       Consumer<Account> consumer) {
-    this.userRepository
-      .findByEmail(email)
+    this.userService.getUserUsingEmail(email)
       .map(u -> {
         Account account = AccountMapper.from(accountDto);
         account.setUserId(u.getUserId());        

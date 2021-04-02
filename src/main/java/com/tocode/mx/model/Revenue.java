@@ -20,35 +20,49 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* Nombre de archivo: UserRepository.java 
+* Nombre de archivo: Revenue.java 
 * Autor: salvgonz 
 * Fecha de creación: 1 abr. 2021 
 */
 
-package com.tocode.mx.application.repository;
+package com.tocode.mx.model;
 
-import com.tocode.mx.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 /**
- * The Interface UserRepository.
+ * The Class Revenue.
  */
-public interface UserRepository extends JpaRepository<User, Long>{
-  
-  /**
-   * Find all.
-   *
-   * @return the list
-   */
-  List<User> findAll();
-  
-  /**
-   * Find by email.
-   *
-   * @param email the email
-   * @return the optional
-   */
-  Optional<User> findByEmail(String email);
+@Table(name = "revenue")
+@Entity
+@Getter
+@Setter
+public class Revenue {
+
+  /** The revenue id. */
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_revenue", nullable = false)
+  private Long revenueId;
+
+  /** The user id. */
+  @Column(name = "id_user", nullable = false)
+  private Long userId;
+
+  /** The description. */
+  @Column(name = "description", nullable = false, length = 60)
+  private String description;
+
+  /** The amount. */
+  @Column(name = "amount", nullable = false)
+  private Float amount;
+
 }

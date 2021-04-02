@@ -20,35 +20,29 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* Nombre de archivo: UserRepository.java 
+* Nombre de archivo: RevenueDto.java 
 * Autor: salvgonz 
 * Fecha de creación: 1 abr. 2021 
 */
 
-package com.tocode.mx.application.repository;
+package com.tocode.mx.application.dto;
 
-import com.tocode.mx.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * The Interface UserRepository.
+ * The Class RevenueDto.
  */
-public interface UserRepository extends JpaRepository<User, Long>{
+@Getter
+@Setter
+public class RevenueDto {
   
-  /**
-   * Find all.
-   *
-   * @return the list
-   */
-  List<User> findAll();
+  /** The revenue id. */
+  private Long revenueId;
   
-  /**
-   * Find by email.
-   *
-   * @param email the email
-   * @return the optional
-   */
-  Optional<User> findByEmail(String email);
+  /** The description. */
+  private String description;
+  
+  /** The amount. */
+  private Float amount;
 }
