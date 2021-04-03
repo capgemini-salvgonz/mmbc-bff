@@ -29,7 +29,7 @@ package com.tocode.mx.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +45,12 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-public class Revenue {
+public class Revenue implements Serializable {
+
+  /**
+   * serialVersionUID
+   */
+  private static final long serialVersionUID = -5790923046544148861L;
 
   /** The revenue id. */
   @Id

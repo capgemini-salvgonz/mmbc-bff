@@ -27,6 +27,7 @@
 
 package com.tocode.mx.application.dto;
 
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,7 +38,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CognitoUser {
+public class CognitoUser implements Serializable{
+  
+  /**
+   * serialVersionUID
+   */
+  private static final long serialVersionUID = -1357549708424929512L;
 
   /** The cognit user name. */
   private String cognitoUserName;

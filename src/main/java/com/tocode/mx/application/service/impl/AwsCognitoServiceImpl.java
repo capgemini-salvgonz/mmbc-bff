@@ -38,6 +38,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.RSAKeyProvider;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +69,7 @@ public class AwsCognitoServiceImpl implements AwsCognitoService {
    * @return the cognito user
    */
   @Override
+  @Cacheable(value = "coginito-user", key = "#cognitoJwt")
   public CognitoUser validateToken(String cognitoJwt) {
     
     cognitoJwt = cognitoJwt.startsWith("Bearer ") ? cognitoJwt.split(" ")[1] : cognitoJwt;

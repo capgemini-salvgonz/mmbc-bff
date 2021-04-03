@@ -29,7 +29,7 @@ package com.tocode.mx.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,8 +45,13 @@ import javax.persistence.Table;
 @Table(name = "account")
 @Getter
 @Setter
-public class Account {
+public class Account implements Serializable {
   
+  /**
+   * serialVersionUID
+   */
+  private static final long serialVersionUID = 343014526719435464L;
+
   @Id()
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "accountId", nullable = false, length = 11)
