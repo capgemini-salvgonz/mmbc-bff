@@ -34,10 +34,9 @@ import com.tocode.mx.application.repository.RevenueRepository;
 import com.tocode.mx.application.service.RevenueService;
 import com.tocode.mx.application.service.UserService;
 import com.tocode.mx.model.Revenue;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
@@ -88,15 +87,19 @@ public class RevenueServiceImpl implements RevenueService {
    * @param cognitoUser the cognito user
    */
   @Override
+  @Transactional
   public void saveRevenueEntry(RevenueDto revenueDto, CognitoUser cognitoUser) {
+    
+    Consumer<Revenue> revenueConsumer = revenueDto.getRevenueId() == null ? 
+        this.revenueRepository::save : this.revenueRepository::updateRevenue;
+    
     this.userService
       .getUserUsingEmail(cognitoUser.getEmail())
-      .map(u -> u.getUserId())
-      .map(userId -> {
+      .map(u -> {
         Revenue revenue = RevenueMapper.from(revenueDto);
-        revenue.setUserId(userId);
+        revenue.setUserId(u.getUserId());
         return revenue;})
-      .ifPresent(this.revenueRepository::save);
+      .ifPresent(revenueConsumer);
   }
 
   /**

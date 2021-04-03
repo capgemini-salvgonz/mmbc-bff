@@ -66,8 +66,8 @@ public interface RevenueRepository extends JpaRepository<Revenue, Long> {
   @Modifying
   @Query(value = 
         "UPDATE revenue "
-      + "SET description=#{#revenue.description}, amount=#{#revenue.amount} "
-      + "WHERE id_revenue=#{#revenue.revenueId} AND id_user=#{#revenue.userId}", 
+      + "SET description=:#{#revenue.description}, amount=:#{#revenue.amount} "
+      + "WHERE id_revenue=:#{#revenue.revenueId} AND id_user=:#{#revenue.userId}", 
     nativeQuery = true)
-  Revenue updateRevenue(@Param("revenue") Revenue revenue);
+  void updateRevenue(@Param("revenue") Revenue revenue);
 }
