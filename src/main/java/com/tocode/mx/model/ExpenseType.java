@@ -20,12 +20,15 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* Nombre de archivo: Revenue.java 
+* Nombre de archivo: ExpenseType.java 
 * Autor: salvgonz 
-* Fecha de creación: 1 abr. 2021 
+* Fecha de creación: 2 abr. 2021 
 */
 
 package com.tocode.mx.model;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -34,40 +37,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 
 /**
- * The Class Revenue.
+ * The Class ExpenseType.
  */
-@Table(name = "revenue")
+@Table(name = "cat_expense")
 @Entity
 @Getter
 @Setter
-public class Revenue implements Serializable {
+public class ExpenseType implements Serializable {
+  
+  /** The Constant serialVersionUID. */
+  private static final long serialVersionUID = -913860178839431044L;
 
-  /**
-   * serialVersionUID
-   */
-  private static final long serialVersionUID = -5790923046544148861L;
-
-  /** The revenue id. */
+  /** The expense type id. */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_revenue", nullable = false)
-  private Long revenueId;
-
-  /** The user id. */
-  @Column(name = "id_user", nullable = false)
-  private Long userId;
+  @Column(name = "id_cat_expense")
+  private Long expenseTypeId;
 
   /** The description. */
-  @Column(name = "description", nullable = false, length = 60)
+  @Column(name = "description", nullable = false)
   private String description;
 
-  /** The amount. */
-  @Column(name = "amount", nullable = false)
-  private Float amount;
-
+  /** The user id. */
+  @Column(name = "id_user", nullable = true)
+  private Long userId;
 }

@@ -22,17 +22,20 @@
 *
 * Nombre de archivo: GlobalExceptionHandler.java 
 * Autor: salvgonz 
-* Fecha de creación: Mar 16, 2021 
+* Fecha de creación: 2 abr. 2021 
 */
 
 package com.tocode.mx.infraestructure.exception;
 
-import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.SQLGrammarException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import java.sql.SQLException;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -50,15 +53,37 @@ public class GlobalExceptionHandler {
    * @return the response entity
    */
   @ExceptionHandler(value = {Exception.class})
-  public ResponseEntity<ErrorResponse> catchTokenExpiredException(Exception ex,
-      WebRequest request) {
-    log.info(ex.getMessage());
+  public ResponseEntity<ErrorResponse> internalServerError(Exception ex, WebRequest request) {
+    log.info(ex.getMessage(), ex);
 
     ErrorResponse response = new ErrorResponse();
     response.setCode(500);
     response.setMessage(ex.getMessage());
     response.setType("internal error");
-    response.setErrorCode(100);    
+    response.setErrorCode(100);
+
+    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  /**
+   * Catch SQL grammar exception.
+   *
+   * @param ex the ex
+   * @param request the request
+   * @return the response entity
+   */
+  @ExceptionHandler(value = {
+      SQLException.class, 
+      InvalidDataAccessResourceUsageException.class,
+      SQLGrammarException.class})
+  public ResponseEntity<ErrorResponse> catchSQLGrammarException(Exception ex, WebRequest request) {
+    log.info(ex.getMessage(), ex);
+    
+    ErrorResponse response = new ErrorResponse();
+    response.setCode(500);
+    response.setMessage("Could not execute query");
+    response.setType("DB error");
+    response.setErrorCode(200);
 
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
