@@ -28,15 +28,17 @@
 package com.tocode.mx.infraestructure.exception;
 
 import org.hibernate.exception.SQLGrammarException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import java.sql.SQLException;
-import lombok.extern.slf4j.Slf4j;
 
+import java.sql.SQLException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class GlobalExceptionHandler.
@@ -48,12 +50,16 @@ public class GlobalExceptionHandler {
   /**
    * Catch token expired exception.
    *
-   * @param ex the ex
-   * @param request the request
+   * @param ex
+   *          the ex
+   * @param request
+   *          the request
    * @return the response entity
    */
   @ExceptionHandler(value = {Exception.class})
-  public ResponseEntity<ErrorResponse> internalServerError(Exception ex, WebRequest request) {
+  public ResponseEntity<ErrorResponse> internalServerError(Exception ex,
+    WebRequest request) {
+
     log.info(ex.getMessage(), ex);
 
     ErrorResponse response = new ErrorResponse();
@@ -68,23 +74,39 @@ public class GlobalExceptionHandler {
   /**
    * Catch SQL grammar exception.
    *
-   * @param ex the ex
-   * @param request the request
+   * @param ex
+   *          the ex
+   * @param request
+   *          the request
    * @return the response entity
    */
-  @ExceptionHandler(value = {
-      SQLException.class, 
-      InvalidDataAccessResourceUsageException.class,
-      SQLGrammarException.class})
-  public ResponseEntity<ErrorResponse> catchSQLGrammarException(Exception ex, WebRequest request) {
+  @ExceptionHandler(value = {SQLException.class,
+    InvalidDataAccessResourceUsageException.class, SQLGrammarException.class})
+  public ResponseEntity<ErrorResponse> catchSQLGrammarException(Exception ex,
+    WebRequest request) {
+
     log.info(ex.getMessage(), ex);
-    
+
     ErrorResponse response = new ErrorResponse();
     response.setCode(500);
     response.setMessage("Could not execute query");
     response.setType("DB error");
     response.setErrorCode(200);
 
+    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(value = {
+    DataIntegrityViolationException.class})
+  public ResponseEntity<ErrorResponse> catchDaoExceptions(Exception ex, WebRequest request){
+    log.info(ex.getMessage(), ex);
+
+    ErrorResponse response = new ErrorResponse();
+    response.setCode(400);
+    response.setMessage("Not a valid object request");
+    response.setType("DB error at properties validation");
+    response.setErrorCode(300);
+    
     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

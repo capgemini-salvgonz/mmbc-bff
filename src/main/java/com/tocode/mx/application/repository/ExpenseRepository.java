@@ -20,7 +20,7 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* File name: FixedExpenseRepository.java
+* File name: ExpenseRepository.java
 * Original Author: salvador
 * Creation Date: 5 abr 2021
 * ---------------------------------------------------------------------------
@@ -28,23 +28,23 @@
 
 package com.tocode.mx.application.repository;
 
-import com.tocode.mx.model.FixedExpense;
+import com.tocode.mx.model.Expense;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
- *  <code>FixedExpenseRepository</code>.
+ *  <code>ExpenseRepository</code>.
  *
  * @author salvador
  * @version 1.0
  */
-public interface FixedExpenseRepository
-  extends JpaRepository<FixedExpense, Long> {
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
   /**
    * Find by user id.
@@ -52,44 +52,46 @@ public interface FixedExpenseRepository
    * @param userId user id
    * @return list
    */
-  List<FixedExpense> findByUserId(Long userId);
+  List<Expense> findByUserId(Long userId);
   
   /**
-   * Count by user id.
+   * Find by execution date greater than equal.
    *
-   * @param userId user id
+   * @param executionDate execution date
+   * @return list
+   */
+  List<Expense> findByExecutionDateGreaterThanEqualAndUserId(Date executionDate, Long userId);
+
+  /**
+   * Count by fixed expense id.
+   *
+   * @param fixedExpenseId fixed expense id
    * @return integer
    */
-  Integer countByUserId(Long userId);
+  Integer countByFixedExpenseId(Long fixedExpenseId);
 
   /**
-   * Update.
+   * Update expense.
    *
-   * @param fixedExpense fixed expense
+   * @param expense expense
    */
   @Modifying
-  @Query(value = "UPDATE fixed_expense SET amount=:#{#fixedExpense.amount}, "
-    + "description=:#{#fixedExpense.description}, id_cat_expense=:#{#fixedExpense.expenseTypeId} "
-    + "WHERE id_fixed_expense=:#{#fixedExpense.fixedExpenseId} "
-    + "AND id_user=:#{#fixedExpense.userId}", nativeQuery = true)
-  void update(@Param("fixedExpense") FixedExpense fixedExpense);
-  
-  
-  @Modifying
-  @Query(value = "UPDATE fixed_expense SET active = 0 "
-  +  "WHERE id_fixed_expense=:#{#fixedExpense.fixedExpenseId} "
-  + "AND id_user=:#{#fixedExpense.userId}", nativeQuery = true)
-  void disable(@Param("fixedExpense") FixedExpense fixedExpense);
+  @Query(
+    value = "UPDATE expense SET id_fixed_expense=:#{#expense.fixedExpenseId}, "
+      + "amount=:#{#expense.amount}, description=:#{#expense.description}, "
+      + "id_cat_expense=:#{#expense.expenseTypeId}, execution_date=:#{#expense.executionDate} "
+      + "WHERE id_expense=:#{#expense.expenseId} AND id_user=:#{#expense.userId}",
+    nativeQuery = true)
+  void updateExpense(@Param("expense") Expense expense);
 
   /**
-   * Delete.
+   * Delete expense.
    *
-   * @param fixedExpense fixed expense
+   * @param expense expense
    */
   @Modifying
-  @Query(value = "DELETE FROM fixed_expense "
-    + "WHERE id_fixed_expense=:#{#fixedExpense.fixedExpenseId} "
-    + "AND id_user=:#{#fixedExpense.userId}", nativeQuery = true)
-  void delete(@Param("fixedExpense") FixedExpense fixedExpense);
-   
+  @Query(value = "DELETE FROM expense "
+    + "WHERE id_expense=:#{#expense.expenseId} AND id_user=:#{#expense.userId}",
+    nativeQuery = true)
+  void deleteExpense(@Param("expense") Expense expense);
 }
