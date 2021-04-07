@@ -50,7 +50,8 @@ public interface ExpenseTypeRepository extends JpaRepository<ExpenseType, Long>{
    */
   @Query(
       value = "SELECT c.id_cat_expense, c.description, c.id_user FROM cat_expense c "
-          + "WHERE c.id_user=:#{#user.userId} OR c.id_user IS NULL" 
+          + "WHERE c.id_user=:#{#user.userId} OR c.id_user IS NULL "
+          + "ORDER BY c.description ASC" 
       , nativeQuery = true)
   List<ExpenseType> retrieveAllTypes(@Param("user") User user);
 }
