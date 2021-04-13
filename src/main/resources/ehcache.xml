@@ -32,7 +32,7 @@
         <key-type>java.lang.String</key-type>
         <value-type>com.tocode.mx.application.dto.CognitoUser</value-type>
         <expiry>
-            <ttl unit="seconds">900</ttl>
+            <ttl unit="seconds">3600</ttl>
         </expiry>
 
         <listeners>
