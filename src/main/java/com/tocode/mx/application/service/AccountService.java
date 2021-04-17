@@ -60,6 +60,14 @@ public interface AccountService {
    * @param account the account
    */
   void dropAccount(CognitoUser cognitoUser, AccountDto account);
+  
+  /**
+   * Sum balance.
+   *
+   * @param userId user id
+   * @return float
+   */
+  Float sumBalance(Long userId);
 }
 
 

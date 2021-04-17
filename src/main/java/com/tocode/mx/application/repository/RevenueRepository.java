@@ -70,4 +70,14 @@ public interface RevenueRepository extends JpaRepository<Revenue, Long> {
       + "WHERE id_revenue=:#{#revenue.revenueId} AND id_user=:#{#revenue.userId}", 
     nativeQuery = true)
   void updateRevenue(@Param("revenue") Revenue revenue);
+  
+  /**
+   * Total revenue.
+   *
+   * @param userId user id
+   * @return float
+   */
+  @Query(value = "SELECT SUM(r.amount) FROM revenue r WHERE r.id_user=:userId",
+    nativeQuery = true)
+  Float totalRevenue(@Param("userId") Long userId);
 }

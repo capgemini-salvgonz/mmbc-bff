@@ -29,6 +29,8 @@ package com.tocode.mx.application.repository;
 
 import com.tocode.mx.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -53,4 +55,14 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
    * @return the optional
    */ 
   Optional<Account> findByAccountIdAndUserId(Long accountId, Long userId);
+  
+  /**
+   * Sum balance by user id.
+   *
+   * @param userId user id
+   * @return float
+   */
+  @Query(value = "SELECT SUM(balance) FROM account WHERE id_user=:userId",
+    nativeQuery = true)
+  Float sumBalanceByUserId(Long userId);
 }

@@ -35,6 +35,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -91,5 +92,35 @@ public interface FixedExpenseRepository
     + "WHERE id_fixed_expense=:#{#fixedExpense.fixedExpenseId} "
     + "AND id_user=:#{#fixedExpense.userId}", nativeQuery = true)
   void delete(@Param("fixedExpense") FixedExpense fixedExpense);
-   
+  
+  
+  /**
+   * Gets the total fixed expenses.
+   *
+   * @param userId user id
+   * @return total fixed expenses
+   */
+  @Query(value = "SELECT SUM(f.amount) FROM fixed_expense f WHERE f.id_user=:userId "
+    + "AND f.active = 1 ", 
+    nativeQuery = true)
+  Float getTotalFixedExpenses(@Param("userId") Long userId);
+
+  
+  @Query(value = "SELECT sum(f.amount) as 'count' "
+    + "FROM fixed_expense f "
+    + "LEFT JOIN expense e ON "
+    + "  f.id_user = e.id_user "
+    + "  AND f.id_fixed_expense = e.id_fixed_expense "
+    + "  AND e.execution_date between :startDate and :endDate "
+    + "WHERE "
+    + "  f.id_user = :userId AND "
+    + "  f.active = 1 "
+    + "group by e.id_user "
+    + "having e.id_user is null", 
+    nativeQuery = true)
+  Float pendingFixedExpenses(
+    @Param("userId") Long userId, 
+    @Param("startDate") Date startDate,
+    @Param("endDate") Date endDate);
+  
 }

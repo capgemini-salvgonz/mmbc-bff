@@ -28,6 +28,7 @@
 
 package com.tocode.mx.application.controller;
 
+import com.tocode.mx.application.dto.BudgetDashboardDto;
 import com.tocode.mx.application.dto.BudgetDto;
 import com.tocode.mx.application.dto.CognitoUser;
 import com.tocode.mx.application.service.BudgetService;
@@ -73,6 +74,26 @@ public class BudgetController {
       (CognitoUser) httpServletRequest.getAttribute("user");
 
     return new ResponseEntity<>(this.budgetService.getBudget(cognitoUser),
+      HttpStatus.OK);
+  }
+  
+  /**
+   * Gets the budget dashboard.
+   *
+   * @param httpServletRequest http servlet request
+   * @param authorizationTokenId authorization token id
+   * @return budget dashboard
+   */
+  @GetMapping(value = "/api/budget/dashboard")
+  public ResponseEntity<BudgetDashboardDto> getBudgetDashboard(
+    HttpServletRequest httpServletRequest,
+    @RequestHeader(value = "Authorization",
+      required = true) String authorizationTokenId) {
+
+    CognitoUser cognitoUser =
+      (CognitoUser) httpServletRequest.getAttribute("user");
+
+    return new ResponseEntity<>(this.budgetService.getBudgetDashboard(cognitoUser),
       HttpStatus.OK);
   }
 

@@ -144,4 +144,16 @@ public class AccountServiceImpl implements AccountService {
      consumer.accept(accountToSave);
   
   }
+
+  /**
+   * Sum balance.
+   *
+   * @param userId user id
+   * @return float
+   */
+  @Override
+  public Float sumBalance(Long userId) {
+
+    return this.accountRepository.sumBalanceByUserId(userId);
+  }
 }

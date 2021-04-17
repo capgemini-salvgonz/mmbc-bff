@@ -34,6 +34,8 @@ import com.tocode.mx.application.repository.RevenueRepository;
 import com.tocode.mx.application.service.RevenueService;
 import com.tocode.mx.application.service.UserService;
 import com.tocode.mx.model.Revenue;
+import com.tocode.mx.model.User;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.function.Consumer;
@@ -71,6 +73,9 @@ public class RevenueServiceImpl implements RevenueService {
    */
   @Override
   public List<RevenueDto> getRevenueList(CognitoUser cognitoUser) {
+    
+    System.out.println(this.getTotal(cognitoUser));
+    
     return this.userService
       .getUserUsingEmail(cognitoUser.getEmail())
       .map(u -> u.getUserId())
@@ -116,5 +121,18 @@ public class RevenueServiceImpl implements RevenueService {
     .getUserUsingEmail(cognitoUser.getEmail())
     .map(u -> u.getUserId())
     .ifPresent(u -> this.revenueRepository.deleteRevenue(revenueDto.getRevenueId(), u));
+  }
+  
+  /**
+   * Gets the total.
+   *
+   * @param cognitoUser cognito user
+   * @return total
+   */
+  public Float getTotal(CognitoUser cognitoUser) {
+    return this.userService
+      .getUserUsingEmail(cognitoUser.getEmail())
+      .map(User::getUserId)
+      .map(this.revenueRepository::totalRevenue).orElse(Float.valueOf(0.0f));
   }
 }

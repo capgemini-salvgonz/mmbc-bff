@@ -20,47 +20,64 @@
 * any other work released this way by its authors.  You can apply it to
 * your programs, too.
 *
-* File name: BudgetService.java
+* File name: BudgetDashboardDto.java
 * Original Author: salvador
-* Creation Date: 10 abr 2021
+* Creation Date: 12 abr 2021
 * ---------------------------------------------------------------------------
 */
 
-package com.tocode.mx.application.service;
+package com.tocode.mx.application.dto;
 
-import com.tocode.mx.application.dto.BudgetDashboardDto;
-import com.tocode.mx.application.dto.BudgetDto;
-import com.tocode.mx.application.dto.CognitoUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 
 /**
- *  <code>BudgetService</code>.
+ *  <code>BudgetDashboardDto</code>.
  *
  * @author salvador
  * @version 1.0
  */
-public interface BudgetService {
+@Getter
+@Setter
+@ToString
+public class BudgetDashboardDto {
 
-  /**
-   * Gets the budget.
-   *
-   * @param user user
-   * @return budget
-   */
-  BudgetDto getBudget(CognitoUser user);
-
-  /**
-   * Update budget.
-   *
-   * @param user user
-   * @param budget budget
-   */
-  void postBudget(CognitoUser user, BudgetDto budget);
   
-  /**
-   * Gets the budget dashboard.
-   *
-   * @param user user
-   * @return budget dashboard
-   */
-  BudgetDashboardDto getBudgetDashboard(CognitoUser user);
+  /** user id. */
+  @JsonIgnore
+  private Long userId;
+  
+  /** current date. */
+  private String currentDate;
+  
+  @JsonIgnore
+  private String startDate;
+
+  /** end of period. */
+  private String endOfPeriod;
+
+  /** available balance. */
+  private Float availableBalance;
+
+  /** pending fixed expenses. */
+  private Float pendingFixedExpenses;
+
+  /** pending weeks. */
+  private Float pendingWeeks;
+  
+  /** monthly budget. */
+  private Float monthlyBudget;
+
+  /** biweekly budget. */
+  private Float biweeklyBudget;
+
+  /** weekly budget. */
+  private Float weeklyBudget;
+
+  /** allowed expense percentage. */
+  private Integer allowedExpensePercentage;
 }

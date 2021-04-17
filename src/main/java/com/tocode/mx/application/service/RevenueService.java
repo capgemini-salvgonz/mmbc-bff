@@ -60,4 +60,12 @@ public interface RevenueService {
    * @param cognitoUser the cognito user
    */
   void deleteRevenueElement(RevenueDto revenueDto, CognitoUser cognitoUser);
+  
+  /**
+   * Gets the total.
+   *
+   * @param cognitoUser cognito user
+   * @return total
+   */
+  Float getTotal(CognitoUser cognitoUser);
 }
