@@ -176,7 +176,7 @@ public class BudgetServiceImpl implements BudgetService {
   private BudgetDashboardDto setBalance(CognitoUser cognitoUser, 
       BudgetDashboardDto dto) {
     Date startDate = Date.valueOf(LocalDate.parse(dto.getStartDate(), FORMATTER));
-    Date endDate = Date.valueOf(LocalDate.parse(dto.getStartDate(), FORMATTER));
+    Date endDate = Date.valueOf(LocalDate.parse(dto.getEndOfPeriod(), FORMATTER));
     
     Float pending = 
       this.fixedExpenseRepository.pendingFixedExpenses(dto.getUserId(), startDate, endDate);
