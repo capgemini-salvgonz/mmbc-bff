@@ -62,6 +62,9 @@ public class BudgetDashboardDto {
 
   /** available balance. */
   private Float availableBalance;
+  
+  /** total revenues. */
+  private Float totalRevenues;
 
   /** pending fixed expenses. */
   private Float pendingFixedExpenses;

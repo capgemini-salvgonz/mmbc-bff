@@ -189,6 +189,7 @@ public class BudgetServiceImpl implements BudgetService {
       Optional.of(totalRevenue).orElse(Float.valueOf(0f)) -
       Optional.of(totalFixedExpenses).orElse(Float.valueOf(0f));
         
+    dto.setTotalRevenues(totalRevenue);
     dto.setPendingFixedExpenses(Optional.of(pending).orElse(Float.valueOf(0f)));
     dto.setMonthlyBudget(montlyBudget);
     dto.setBiweeklyBudget(montlyBudget/2);
